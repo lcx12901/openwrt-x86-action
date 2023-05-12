@@ -97,15 +97,8 @@ jobs:
             cd rom && sha256sum *gz > ../info/sha256sums.txt
           fi
 
-      - name: Create release
-        if: env.release != 'false'
-        id: create_release
-        uses: ncipollo/release-action@v1.11.1
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
         with:
-          name: OpenWRT-${{ env.latest_release }}
-          allowUpdates: true
-          tag: ${{ env.latest_release }}
-          commit: master
-          replacesArtifacts: true
-          token: ${{ secrets.workflow_token }}
-          artifacts: rom/*
+          name: ${{ env.build_date }}-${{ matrix.model }}-${{ matrix.tag.version }}
+          path: rom/*.gz
